@@ -1,36 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
-import { FaStar } from "react-icons/fa";
-
-const createArray = (length) => [
-  ...Array(length)
-];
-
-function Star({selected = false, onSelect }) {
-  return <FaStar 
-    color={selected ? "red" : "gray" } 
-    onClick={onSelect}
-  />;
-}
-
-function StarRating({totalStars = 5}) {
-  const [selectedStars, setSelectedStars] = useState(0);
-  return (
-    <>
-      {createArray(totalStars).map((n,i) => (
-        <Star 
-          key={i} 
-          selected={selectedStars > i} 
-          onSelect={() => setSelectedStars(i + 1)}
-        />
-      ))}
-      <p>{selectedStars} of total stars</p>
-    </>
-  );
-}
 
 export default function App() {
+  const [name, setName] = useState("Jill");
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    console.log(`Celebrate ${name}`);
+  }, [name]);
+
+  useEffect(() => {
+    console.log(`The user is ${admin ? 'admin' : 'not admin' }`);
+  }, [admin])
+;
   return (
-    <StarRating totalStars={5} />
+    <section>
+      <p>Congratulations {name}!</p>
+      <button onClick={() => setName("Will")}>
+        Change Winner
+      </button>
+      <p>{admin ? 'logged in' : 'not logged in' }</p>
+      <button onClick={() => setAdmin(true)}>
+        Log In
+      </button>
+    </section>
   );
 }
