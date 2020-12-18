@@ -1,35 +1,31 @@
 import React, { useReducer } from "react";
 import "./style.css";
-
-const initialState = {
-  message: "hi"
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "yell":
-      return {
-        message: `HEY! I JUST SAID ${state.message}`
-      };
-    case "whisper":
-      return {
-        message: `excuse me, I just said ${state.message}`
-      };
-  }
-}
+import { useInput } from './useInput';
 
 export default function App() {
 
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState
-  )
+const [titleProps, resetTitle] = useInput("");
+const [colourProps, resetColour] = useInput("#000000");
+
+const submit =  (e) => {
+  e.preventDefault();
+  alert(`${titleProps.value} sounds like ${colourProps.value}`);
+  resetTitle("");
+  resetColour("#000000");
+};
 
   return (
-    <>
-      <p>Message: {state.message}</p>
-      <button onClick={() => dispatch({type: "yell"})}>Yell</button>
-      <button onClick={() => dispatch({type: "whisper"})}>whisper</button>
-    </>
+    <form onSubmit={submit}>
+      <input 
+        {...titleProps}
+        type="text"
+        placeholder="Sound..."
+      />
+      <input
+        {...colourProps}
+        type="color"
+      />
+      <button>ADD</button>
+    </form>
   );
 }
